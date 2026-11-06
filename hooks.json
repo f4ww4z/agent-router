@@ -1,0 +1,17 @@
+{
+  "agent-roster": {
+    "SessionStart": [
+      { "type": "command", "command": "python3 hooks/agent-roster.py", "timeout": 10 }
+    ]
+  },
+  "enforce-agent": {
+    "PreToolUse": [
+      {
+        "matcher": "invoke_subagent",
+        "hooks": [
+          { "type": "command", "command": "python3 hooks/enforce-agent.py", "timeout": 10 }
+        ]
+      }
+    ]
+  }
+}
