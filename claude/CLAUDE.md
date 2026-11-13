@@ -4,5 +4,5 @@ Standing authorization: spawn these custom agents (~/.claude/agents/) for delega
 - Tests, typecheck, lint runs → `test-runner` (haiku, low)
 - Clearly specified implementation → `implementer` (sonnet, medium)
 - Before opening a PR → `reviewer` against SPEC.md (sonnet, high)
-- Non-obvious bugs → `debugger` (opus, high)
+- Non-obvious bugs → `debugger` (opus, medium)
 - Design questions → `architect` (opus, high)

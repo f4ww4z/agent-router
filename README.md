@@ -12,7 +12,7 @@ Defines **6 specialized subagents**—each pinned to its own model tier and tool
 | `test-runner` | Run test suites, typecheck, or lint; report only failures | `flash` (Gemini 3.8 Flash) | `haiku` / `low` | Read + shell |
 | `implementer` | Well-scoped features, refactors & tests from a clear spec | `inherit` (session model) | `sonnet` / `medium` | Full read/write |
 | `reviewer` | Pre-PR diff review against `SPEC.md` | `inherit` (session model) | `sonnet` / `high` | Read-only |
-| `debugger` | Root-cause analysis & regression tests for non-obvious bugs | `pro` (Gemini 4 Argon) | `opus` / `high` | Full read/write |
+| `debugger` | Root-cause analysis & regression tests for non-obvious bugs | `pro` (Gemini 4 Argon) | `opus` / `medium` | Full read/write |
 | `architect` | Design decisions, migration plans & trade-off analysis | `pro` (Gemini 4 Argon) | `opus` / `high` | Read + web search |
 
 ## How It Works
