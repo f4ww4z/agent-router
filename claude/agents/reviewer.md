@@ -1,6 +1,6 @@
 ---
 name: reviewer
-description: Use after implementing a feature, before the PR, to review the diff against the spec
+description: Use after implementing a feature, before the PR, to review the diff against the spec (SPEC.md)
 model: sonnet
 effort: high
 tools: Read, Grep, Glob

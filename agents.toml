@@ -1,0 +1,91 @@
+# Single source of truth for every agent.
+# Edit this file, then run `python3 scripts/build.py` to regenerate:
+#   agents/*.md          (agy)            claude/agents/*.md   (Claude Code)
+#   rules/AGENTS.md      (agy rule)       claude/CLAUDE.md     (Claude Code rule)
+#   the roster table in README.md
+#
+# Per agent: `when` is the routing hint, `prompt` the system instructions.
+# [<agent>.agy] and [<agent>.claude] hold platform-specific frontmatter;
+# every key in them is copied verbatim into that platform's agent file.
+
+[explore]
+when = "Searches / file discovery"
+description = "Fast read-only codebase search and file discovery"
+prompt = "Search and report concisely: file paths, line references, a short summary. Do not edit."
+access = "Read-only"
+  [explore.agy]
+  description = "Fast read-only codebase search and file discovery. Use for any \"where is / find / which files\" task."
+  model = "flash"
+  tools = ["view_file", "grep_search", "find_by_name", "list_dir", "send_message"]
+  [explore.claude]
+  name = "Explore"  # overrides Claude Code's built-in Explore agent
+  model = "haiku"
+  effort = "low"
+  tools = "Read, Grep, Glob"
+  maxTurns = 30
+
+[test-runner]
+when = "Tests, typecheck, lint runs"
+description = "Use proactively to run the test suite, typecheck or lint and report only failures"
+prompt = "Run the requested checks. Return only failing tests with the key error lines. Do not fix anything."
+access = "Read + shell"
+  [test-runner.agy]
+  model = "flash"
+  tools = ["view_file", "grep_search", "find_by_name", "run_command", "manage_task", "send_message"]
+  [test-runner.claude]
+  model = "haiku"
+  effort = "low"
+  tools = "Read, Grep, Glob, Bash"
+  maxTurns = 30
+
+[implementer]
+when = "Clearly specified implementation"
+description = "Use for well-scoped features, refactors and test-writing once the approach is clear"
+prompt = "Implement exactly what the spec says. Follow existing patterns. Run the relevant checks before reporting done, and include the command and its output."
+access = "Full read/write"
+  [implementer.agy]
+  model = "inherit"
+  inheritCustomizations = true
+  [implementer.claude]
+  model = "sonnet"
+  effort = "medium"
+  maxTurns = 100
+
+[reviewer]
+when = "Before opening a PR (review against SPEC.md)"
+description = "Use after implementing a feature, before the PR, to review the diff against the spec (SPEC.md)"
+prompt = "You are reviewing code you didn't write. Compare the changes to the spec, check every requirement is implemented and the listed edge cases have tests. Report only gaps that affect correctness. Skip style."
+access = "Read-only"
+  [reviewer.agy]
+  model = "inherit"
+  tools = ["view_file", "grep_search", "find_by_name", "list_dir", "send_message"]
+  [reviewer.claude]
+  model = "sonnet"
+  effort = "high"
+  tools = "Read, Grep, Glob"
+
+[debugger]
+when = "Non-obvious bugs"
+description = "Use for hard bugs, flaky tests and failures where the cause isn't obvious"
+prompt = "Reproduce first. Form hypotheses, test them, find the root cause, then fix it and add a test that would have caught it."
+access = "Full read/write"
+  [debugger.agy]
+  model = "pro"
+  inheritCustomizations = true
+  [debugger.claude]
+  model = "opus"
+  effort = "medium"
+  maxTurns = 80
+
+[architect]
+when = "Design / trade-off questions"
+description = "Use for design decisions, migration plans and trade-off analysis before coding starts"
+prompt = "Return a concrete plan: options considered, recommendation, risks, and the order of changes. Do not edit files."
+access = "Read + web search"
+  [architect.agy]
+  model = "pro"
+  tools = ["view_file", "grep_search", "find_by_name", "list_dir", "search_web", "read_url_content", "send_message"]
+  [architect.claude]
+  model = "opus"
+  effort = "high"
+  tools = "Read, Grep, Glob, WebSearch, WebFetch"
